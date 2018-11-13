@@ -16,8 +16,8 @@
     crossorigin="anonymous">
 
   <link rel="stylesheet" href="prism/prism.css">
-
   <link rel="stylesheet" href="css/tutorial.css" />
+  <script type="text/javascript" src="js/lib/langswitcher.js"></script>
 
 </head>
 
@@ -25,12 +25,21 @@
 
   <div class="hero">
     <div class="hero-body">
-      <a class="navbar-item" href="#technicalview">
-        <span>Technische Details</span>
-        <span class="icon">
-          <i class="fas fa-long-arrow-alt-down" aria-hidden="true"></i>
-        </span>
-      </a>
+      <div class="navbar">
+        <div class="navbar-start">
+          <a class="navbar-item" href="#technicalview">
+            <span lang="de">Technische Details</span>
+            <span lang="en">Technical details</span>
+            <span class="icon">
+              <i class="fas fa-long-arrow-alt-down" aria-hidden="true"></i>
+            </span>
+          </a>
+        </div>
+        <div class="navbar-end">
+          <a class="navbar-item" switchlang="en">EN</a>
+          <a class="navbar-item" switchlang="de">DE</a>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -41,14 +50,19 @@
 
           <h1 class="logo title is-size-3 has-text-centered"><a href="start.html">My<br />Bank<br />App</a></h1>
 
-          <h2 class="subtitle is-size-4">2. Bank auswählen*</h2>
+          <h2 lang="de" class="subtitle is-size-4">2. Bank auswählen*</h2>
+          <h2 lang="en" class="subtitle is-size-4">2. Select bank*</h2>
 
           <div class="message">
             <div class="message-body">
-              <p>
-                *Mit einem Demo-Zugang muss hier die Sandbox Demo-Bank (Sandbank (BLZ 99994000)) ausgewählt werden.
+              <p lang="de">
+                *Mit einem Demo-Zugang muss hier die Sandbox Demo-Bank (Sandbank, BLZ 99994000) ausgewählt werden.
                 'Echte' Banken funktionieren nicht mit einem Demo-Zugang.
-                <p>
+              </p>
+              <p lang="de">
+                *With a demo access you have to select the Sandbox demo bank (Sandbank, BLZ
+                99994000). ‘Real’ banks do not work with a demo access
+              </p>
             </div>
           </div>
 
@@ -56,7 +70,8 @@
             <div class="field bottomspace1">
               <div class="control has-icons-left has-icons-right">
                 <!-- autocomplete search field -->
-                <input name="banklist" class="input" type="text" placeholder="Lade List mit Banken...">
+                <input lang="de" name="banklist" class="input" type="text" placeholder="Lade List mit Banken...">
+                <input lang="en" name="banklist" class="input" type="text" placeholder="Loading list of banks...">
                 <span class="icon is-small is-left">
                   <i class="fas fa-search"></i>
                 </span>
@@ -67,7 +82,8 @@
             </div>
 
             <div class="buttons is-right">
-              <input class="button is-black" type="submit" disabled value="Weiter" />
+              <input lang="de" class="button is-black" type="submit" disabled value="Weiter" />
+              <input lang="en" class="button is-black" type="submit" disabled value="Next" />
             </div>
           </form>
 
@@ -81,10 +97,11 @@
       <div class="columns is-centered">
         <div class="column is-two-thirds-desktop">
 
-          <h2 class="subtitle is-4" id="technicalview">Technische Details</h2>
+          <h2 lang="de" class="subtitle is-4" id="technicalview">Technische Details</h2>
+          <h2 lang="en" class="subtitle is-4" id="technicalview">Technical details</h2>
 
           <p class="bottomspace2">
-            Request:
+            Test request:
             <a class="demorequest" href="http://localhost:3000/ahoi/providers">
               http://localhost:3000/ahoi/providers
             </a>
@@ -155,7 +172,8 @@ return api.getProviders(bankCode, supported, query);</code></pre>
       // Hide loading icon after data has been loaded
       $find('.banklistsearch span.icon.is-right').style.display = 'none';
       $find('.banklistsearch div.control').classList.remove('has-icons-right');
-      $find('.banklistsearch input').setAttribute('placeholder', 'Wähle Bank...');
+      const placeholder = localStorage.getItem('lang') === 'de' ? 'Wähle Bank...' : 'Choose bank...'
+      $find('.banklistsearch input').setAttribute('placeholder', placeholder);
 
       // get link parameter and open next page after click on submit button
       $find('form.banklistsearch').addEventListener('submit', (event) => {

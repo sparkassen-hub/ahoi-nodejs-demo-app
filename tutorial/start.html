@@ -13,9 +13,22 @@
     crossorigin="anonymous" />
   <link rel="stylesheet" href="css/tutorial.css" />
 
+  <script type="text/javascript" src="js/lib/langswitcher.js"></script>
+
 </head>
 
 <body>
+
+  <div class="hero">
+    <div class="hero-body">
+      <div class="navbar">
+        <div class="navbar-end">
+          <a class="navbar-item" switchlang="en">EN</a>
+          <a class="navbar-item" switchlang="de">DE</a>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <div class="section">
     <div class="container">
@@ -23,54 +36,67 @@
         <div class="column is-two-thirds-desktop">
           <h1 class="logo title is-size-3 has-text-centered"><a href="start.html">My<br />Bank<br />App</a></h1>
 
-          <h2 class="subtitle is-size-4 bottomspace1">AHOI API: erste Schritte</h2>
+          <h2 lang="de" class="subtitle is-size-4 bottomspace1">AHOI API: erste Schritte</h2>
+          <h2 lang="en" class="subtitle is-size-4 bottomspace1">AHOI API: first Steps</h2>
 
-          <p>
+          <p lang="de">
             Um auf Kontodaten zugreifen zu können, muss ein Benutzer zuerst einmal einen Zugriff auf
             seine Bankdaten erlauben. Üblicherweise wird dazu die PIN und der Benutzername
             benötigt.
           </p>
-          <p>
-              Die Erlaubnis, auf die Bankdaten über die AHOI API zugreifen zu düfen, muss
-              nur  einmal erteilt werden. Sie ist solange gültig, bis sie ausdrücklich widerufen wird.
+          <p lang="en">
+            In order to access account data, a user must first grant access to his bank(s). Usually,
+            the PIN and the user name are required.
           </p>
-          <p>
+          <p lang="de">
+            Die Erlaubnis, auf die Bankdaten über die AHOI API zugreifen zu dürfen, muss
+            nur einmal erteilt werden. Sie ist solange gültig, bis sie ausdrücklich widerufen wird.
+          </p>
+          <p lang="en">
+            The permission to access the bank data via the AHOI API must be granted only once. It
+            is valid until an user revokes permission.
+          </p>
+          <p lang="de">
             Auf den nachfolgenden Seiten werden die einzelnen Schritte demonstriert und die
             technischen Hintergründe kurz erläutert.
           </p>
+          <p lang="en">
+            On the following pages, the steps from bank selection to transaction display will be
+            demonstrated and the technical background shortly explained.
+          </p>
 
-          <p>Folgende Schritte werden gezeigt:</p>
-          <!-- <p class="bottomspace2">Um über die AHOI Open Banking API Kontodaten abrufen zu können,
-          wird zuerst einmal ein Demo-Account bei AHOI benötigt. Dieser sollte bereits angelegt
-          und die Zugangsdaten in die Konfiguration dieser Anwendung eingetragen sein. Ansonsten
-          startet der Server gar nicht erst :-)</p>
-          <p>Um </p> -->
+          <p lang="de">Folgende Schritte werden gezeigt:</p>
+          <p lang="en">The following steps are shown:</p>
 
           <div class="message">
             <div class="message-body">
               <ol>
-                <li>Neuen Benutzer in AHOI anlegen</li>
-                <li>Bank auswählen</li>
-                <li>Zugriff auf Bank-Konten erlauben</li>
-                <li>Konten für Anzeige auswählen (optional)</li>
-                <li>Kontoein- und ausgänge anzeigen</li>
+                <li lang="de">Neuen Benutzer in AHOI anlegen</li>
+                <li lang="en">Create a new user in AHOI</li>
+                <li lang="de">Bank auswählen</li>
+                <li lang="en">Select bank</li>
+                <li lang="de">Zugriff auf Bank-Konten erlauben</li>
+                <li lang="en">Grant access to bank accounts</li>
+                <li lang="de">Konten für Anzeige auswählen (optional)</li>
+                <li lang="en">Select accounts for display (optional)</li>
+                <li lang="de">Kontoein- und ausgänge anzeigen</li>
+                <li lang="en">Display account balances and transactions</li>
               </ol>
             </div>
           </div>
 
-          <p>
+          <p lang="de">
             Hat ein Benutzer Konten bei mehreren Banken, müssen die Schritte 2 - 4 für jede Bank
             einmal wiederholt werden.
           </p>
-
-          <!-- <p class="bottomspace2">Auf den folgenden Seiten dieses Tutorials werden die genannten Schritte und die
-            Erst-Einrichtung der Beispiel-Anwendung für eine Bank (Demo-Sandbank) durchgeführt. Es wird
-            dabei auch gezeigt, welche URL’s aufgerufen werden und welche Daten von AHOI zurückgesendet
-            werden.
-          </p> -->
+          <p lang="en">
+            If a user has accounts with multiple banks, steps 2 - 4 must be performed again for
+            each bank
+          </p>
 
           <div class="buttons is-right">
-            <a class="button is-black" href="step1.html">Los geht's</a>
+            <a lang="de" class="button is-black" href="step1.html">Los geht's</a>
+            <a lang="en" class="button is-black" href="step1.html">Here we go</a>
           </div>
 
         </div>

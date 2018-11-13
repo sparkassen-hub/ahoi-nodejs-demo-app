@@ -19,18 +19,29 @@
 
   <link rel="stylesheet" href="css/tutorial.css" />
 
+  <script type="text/javascript" src="js/lib/langswitcher.js"></script>
+
 </head>
 
 <body>
 
   <div class="hero">
     <div class="hero-body">
-      <a class="navbar-item" href="#technicalview">
-        <span>Technische Details</span>
-        <span class="icon">
-          <i class="fas fa-long-arrow-alt-down" aria-hidden="true"></i>
-        </span>
-      </a>
+      <div class="navbar">
+        <div class="navbar-start">
+          <a class="navbar-item" href="#technicalview">
+            <span lang="de">Technische Details</span>
+            <span lang="en">Technical details</span>
+            <span class="icon">
+              <i class="fas fa-long-arrow-alt-down" aria-hidden="true"></i>
+            </span>
+          </a>
+        </div>
+        <div class="navbar-end">
+          <a class="navbar-item" switchlang="en">EN</a>
+          <a class="navbar-item" switchlang="de">DE</a>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -41,66 +52,117 @@
 
           <h1 class="logo title is-size-3 has-text-centered"><a href="start.html">My<br />Bank<br />App</a></h1>
 
-          <h2 class="subtitle is-size-4 bottomspace1">1. Neuen Benutzer in AHOI anlegen</h2>
+          <h2 lang="de" class="subtitle is-size-4 bottomspace1">1. Neuen Benutzer in AHOI anlegen</h2>
+          <h2 lang="en" class="subtitle is-size-4 bottomspace1">1. Create a new user in AHOI</h2>
 
-          <p>
+          <p lang="de">
             Warum eigentlich einen Benutzer anlegen, wenn man sich bereits bei AHOI registriert hat?
           </p>
+          <p lang="en">
+            Question here is: why create a user if you have already registered with AHOI?
+          </p>
 
-          <p>
+          <p lang="de">
             Man muss unterscheiden zwischen der <strong>Anwendung</strong> und den
             <strong>Benutzern der Anwendung</strong>.
           </p>
-          <p>
-            Die <strong>Anwendung</strong> kommuniziert mit der AHOI API, legt neue Benutzer bei AHOI an und fragt
-            Bankdaten für die Benutzer ab.
+          <p lang="en">
+            It is necessary to distinguish between the <strong>application</strong> and the
+            <strong>users of the application</strong>.
+          </p>
+          <p lang="de">
+            Die <strong>Anwendung</strong> kommuniziert mit der AHOI API, legt neue Benutzer bei
+            AHOI an und fragt Bankdaten für die Benutzer ab.
             Damit eine Anwendung auf die AHOI API zugreifen kann, muss sie sich gegenüber AHOI
             mit clientSecret und clientId authentifizieren. Die Zugangsdaten dafür erhält man durch die
             initiale Registrierung eines (Demo-)Accounts bei AHOI.
           </p>
-          <p>
-            Für jeden <strong>Benutzer der Anwendung</strong>, für den Bankdaten über die AHOI API abgerufen werden
-            sollen, muss die Anwendung einen neuen Benutzer bei AHOI angelegen. Die AHOI API liefert daraufhin eine
-            eindeutige
-            Benutzerkennung (InstallationId genannt) zurück. Mit dieser werden von dem
-            Benutzer freigegebene Bankzugänge verknüpft.
+          <p lang="en">
+            The <strong>application</strong> communicates with the AHOI API, creates new users at
+            AHOI and fetches bank data for users.
+            In order for an application to be able to access the AHOI API, it must authenticate with
+            clientSecret and clientId before.
+            The access data is obtained from the initial registration of a (demo) account with AHOI.
+          </p>
+          <p lang="de">
+            Für jeden <strong>Benutzer der Anwendung</strong>, für den Bankdaten über die AHOI API
+            abgerufen werden sollen, muss die Anwendung einen neuen Benutzer bei AHOI angelegen. Die
+            AHOI API liefert daraufhin eine eindeutige Benutzerkennung (InstallationId genannt)
+            zurück. Mit dieser werden von dem Benutzer freigegebene Bankzugänge verknüpft.
+          </p>
+          <p lang="en">
+            For each user of the application for whom bank data should be retrieved via the AHOI API
+            the application must create a new user at AHOI. The AHOI API then returns a unique user
+            ID (called InstallationId). The granted bank accesses of an user will be linked in later
+            steps with his AHOI user ID (installationid).
           </p>
 
           <div class="message">
             <div class="message-body">
-              <p>
+              <p lang="de">
                 <strong>Wichtig</strong>: AHOI bietet keine Benutzerverwaltung an. Mit der Benutzerkennung sind keine
                 Benutzerdaten, wie z.B. eine Email-Adresse, verbunden. Vielmehr sind nur die Bankzugänge
                 und -Daten mit der Benutzerkennung verbunden.
               </p>
-              <p>
+              <p lang="en">
+                <strong>Note</strong>: AHOI does not offer a user management tool. The user ID does
+                not contain any user data, such as an email address. Actually only the granted bank
+                accesses are linked with the user ID.
+              </p>
+              <p lang="de">
                 Die Verknüpfung zwischen einem Benutzer und einer Benutzerkennung (InstallationId), muss
                 die Anwendung selber vornehmen.
               </p>
-              <p class="bottomspace3">
+              <p lang="en">
+                The linkage between a user and a (AHOI) user ID must be made by the application.
+              </p>
+              <p lang="de" class="bottomspace3">
                 Der übliche Weg dafür ist:
               </p>
+              <p lang="en" class="bottomspace3">
+                The common way for that is:
+              </p>
               <ul>
-                <li>Ein Benutzer registriert sich bei der Anwendung mit Zugangsdaten wie Email und Passwort</li>
-                <li>Die Anwendung speichert die Benutzerdaten in der eigenen Benutzerverwaltung</li>
-                <li>Die Anwendung registriert einen neuen Benutzer bei AHOI über die AHOI API</li>
-                <li>AHOI liefert eine eindeutige Benutzerkennung (InstallationId) zurück. Diese wird von der
-                  Anwendung mit dem Benutzer verknüoft und in der Benuterzerverwaltung gespeichert</li>
-                <li>Ruft ein Benutzer über die Anwendung dann z.B. Kontoumsätze ab, ermittelt die
-                  Anwendung zuerst die AHOI-Benutzerkennung (InstallationId) für den Benutzer in der
-                  Benutzerverwaltung und authentifiziert dann den Benutzer gegenüber AHOI mit der
-                  Benutzerkennung</li>
+                <li lang="de">Ein Benutzer registriert sich bei der Anwendung mit Zugangsdaten wie
+                  Email und Passwort</li>
+                <li lang="en">A user registers at the application with access data such as Email and
+                  Password</li>
+                <li lang="de">Die Anwendung speichert die Benutzerdaten in der eigenen
+                  Benutzerverwaltung</li>
+                <li lang="en">The application stores the user data in its own user management
+                  tool</li>
+                <li lang="de">Die Anwendung registriert einen neuen Benutzer bei AHOI über die AHOI
+                  API</li>
+                <li lang="en">The application registers a new user at AHOI via the AHOI API</li>
+                <li lang="de">AHOI liefert eine eindeutige Benutzerkennung (InstallationId) zurück.
+                  Diese wird von der Anwendung mit dem Benutzer verknüoft und in der
+                  Benuterzerverwaltung gespeichert</li>
+                <li lang="en">AHOI returns a unique user ID (InstallationId). This is linked to the
+                  user by the application and stored in the user management tool</li>
+                <li lang="de">Ruft ein Benutzer über die Anwendung dann z.B. Kontoumsätze ab,
+                  ermittelt die Anwendung zuerst die AHOI-Benutzerkennung (InstallationId) für den
+                  Benutzer in der Benutzerverwaltung und authentifiziert dann den Benutzer gegenüber
+                  AHOI mit der Benutzerkennung</li>
+                <li lang="en">On subsequent calls by the user, e.g. to get account transactions
+                  displayed, the application first queries the AHOI user ID (InstallationId) for the
+                  user in his user mangement tool and then authenticates the user to the AHOI API with
+                  the user ID</li>
               </ul>
             </div>
           </div>
 
-          <p>
-            Diese Anwendung bietet eine einfache Benutzerverwaltung, in der Benutzer und die
-            zugehörige InstallationId gespeichert wird.
+          <p lang="de">
+            Diese Anwendung bietet eine sehr einfache Benutzerverwaltung, über die Benutzer
+            authentifiziert und deren InstallationId gespeichert wird.
+          </p>
+          <p lang="en">
+            This application has a very simple user management tool that allows to authenticate
+            users and store their AHOI installationid
           </p>
 
           <div class="buttons is-right">
-            <a class="button is-black" href="step2.html">Weiter</a>
+            <a lang="de" class="button is-black" href="step2.html">Weiter</a>
+            <a lang="en" class="button is-black" href="step2.html">Next</a>
           </div>
 
         </div>
@@ -113,10 +175,11 @@
       <div class="columns is-centered">
         <div class="column is-two-thirds-desktop">
 
-          <h2 class="subtitle is-4" id="technicalview">Technische Details</h2>
+          <h2 lang="de" class="subtitle is-4" id="technicalview">Technische Details</h2>
+          <h2 lang="en" class="subtitle is-4" id="technicalview">Technical details</h2>
 
           <p class="bottomspace2">
-            Request:
+            Test request:
             <a class="demorequest" href="http://localhost:3000/ahoi/installationid">
               http://localhost:3000/ahoi/installationid
             </a>

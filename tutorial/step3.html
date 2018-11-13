@@ -16,8 +16,8 @@
     crossorigin="anonymous">
 
   <link rel="stylesheet" href="prism/prism.css">
-
   <link rel="stylesheet" href="css/tutorial.css" />
+  <script type="text/javascript" src="js/lib/langswitcher.js"></script>
 
 </head>
 
@@ -25,12 +25,21 @@
 
   <div class="hero">
     <div class="hero-body">
-      <a class="navbar-item" href="#technicalview">
-        <span>Technische Details</span>
-        <span class="icon">
-          <i class="fas fa-long-arrow-alt-down" aria-hidden="true"></i>
-        </span>
-      </a>
+      <div class="navbar">
+        <div class="navbar-start">
+          <a class="navbar-item" href="#technicalview">
+            <span lang="de">Technische Details</span>
+            <span lang="en">Technical details</span>
+            <span class="icon">
+              <i class="fas fa-long-arrow-alt-down" aria-hidden="true"></i>
+            </span>
+          </a>
+        </div>
+        <div class="navbar-end">
+          <a class="navbar-item" switchlang="en">EN</a>
+          <a class="navbar-item" switchlang="de">DE</a>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -41,15 +50,21 @@
 
           <h1 class="logo title is-size-3 has-text-centered"><a href="start.html">My<br />Bank<br />App</a></h1>
 
-          <h2 class="subtitle is-size-4">3. Bankzugang erlauben*</h2>
+          <h2 lang="de" class="subtitle is-size-4">3. Bankzugang erlauben*</h2>
+          <h2 lang="en" class="subtitle is-size-4">3. Grant bank access*</h2>
 
           <div class="message">
             <div class="message-body">
-              <p>
+              <p lang="de">
                 *Den Benutzernamen und die PIN für deine Demo-Konten bei der Sandbank &#128512; findest du in deinem
                 Sandbox-Account (<a href="https://banking-sandbox.starfinanz.de/sandboxmanager/#/home" target="_blank">Demo-Account</a>)
                 unter 'Sandbank access'.
-                <p>
+              </p>
+              <p lang="en">
+                *You can find the user name and the PIN for your demo bank account at the Sandbank
+                &#128512; in your Sandbox account (<a href="https://banking-sandbox.starfinanz.de/sandboxmanager/#/home"
+                  target="_blank">Demo-Account</a>), look for ’Sandbank access'
+              </p>
             </div>
           </div>
 
@@ -59,7 +74,8 @@
 
             <div class="field">
               <div class="control">
-                <input class="input" required type="text" name="username" placeholder="Benutzername">
+                <input lang="de" class="input" required type="text" name="username" placeholder="Benutzername">
+                <input lang="en" class="input" required type="text" name="username" placeholder="User name">
               </div>
             </div>
             <div class="field bottomspace1">
@@ -69,7 +85,8 @@
             </div>
 
             <div class="buttons is-right">
-              <button class="button is-black" type="submit" disabled>Weiter</button>
+              <button lang="de" class="button is-black" type="submit" disabled>Weiter</button>
+              <button lang="en" class="button is-black" type="submit" disabled>Next</button>
             </div>
 
           </form>
@@ -84,10 +101,11 @@
       <div class="columns is-centered">
         <div class="column is-two-thirds-desktop">
 
-          <h2 class="subtitle is-4" id="technicalview">Technische Details</h2>
+          <h2 lang="de" class="subtitle is-4" id="technicalview">Technische Details</h2>
+          <h2 lang="en" class="subtitle is-4" id="technicalview">Technical details</h2>
 
           <p class="bottomspace2">
-            Request:
+            Test request:
             <a class="demorequest" href="http://localhost:3000/ahoi/accesses">
               http://localhost:3000/ahoi/accesses
             </a>
@@ -183,7 +201,7 @@ return api.postAccess(access);</code></pre>
 
         const pin = prompt('PIN für Demo-Bankzugang');
         const user = prompt('Benutzername für Demo-Bankzugang');
-        
+
         if (user && pin) {
           const link = event.target;
           $find('.technicalview .spinner').classList.remove('is-invisible');

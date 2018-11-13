@@ -17,8 +17,8 @@
     crossorigin="anonymous">
 
   <link rel="stylesheet" href="prism/prism.css">
-
   <link rel="stylesheet" href="css/tutorial.css" />
+  <script type="text/javascript" src="js/lib/langswitcher.js"></script>
 
 </head>
 
@@ -26,12 +26,21 @@
 
   <div class="hero">
     <div class="hero-body">
-      <a class="navbar-item" href="#technicalview">
-        <span>Technische Details</span>
-        <span class="icon">
-          <i class="fas fa-long-arrow-alt-down" aria-hidden="true"></i>
-        </span>
-      </a>
+      <div class="navbar">
+        <div class="navbar-start">
+          <a class="navbar-item" href="#technicalview">
+            <span lang="de">Technische Details</span>
+            <span lang="en">Technical details</span>
+            <span class="icon">
+              <i class="fas fa-long-arrow-alt-down" aria-hidden="true"></i>
+            </span>
+          </a>
+        </div>
+        <div class="navbar-end">
+          <a class="navbar-item" switchlang="en">EN</a>
+          <a class="navbar-item" switchlang="de">DE</a>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -42,7 +51,8 @@
 
           <h1 class="logo title is-size-3 has-text-centered"><a href="start.html">My<br />Bank<br />App</a></h1>
 
-          <h2 class="subtitle is-size-4">4. Konten auswählen</h2>
+          <h2 lang="de" class="subtitle is-size-4">4. Konten auswählen</h2>
+          <h2 lang="en" class="subtitle is-size-4">4. Select bank accounts</h2>
 
           <form class="bankaccounts" required action="transactions.html" method="POST">
 
@@ -65,7 +75,8 @@
             </div>
 
             <div class="buttons is-right">
-              <button class="button is-black" type="submit">Kontoumsätze anzeigen</button>
+              <button lang="de" class="button is-black" type="submit">Kontoumsätze anzeigen</button>
+              <button lang="en" class="button is-black" type="submit">Display transactions</button>
             </div>
 
           </form>
@@ -79,11 +90,12 @@
     <div class="container">
       <div class="columns is-centered">
         <div class="column is-two-thirds-desktop">
-  
-          <h2 class="subtitle is-4" id="technicalview">Technische Details</h2>
-  
+
+          <h2 lang="de" class="subtitle is-4" id="technicalview">Technische Details</h2>
+          <h2 lang="en" class="subtitle is-4" id="technicalview">Technical details</h2>
+
           <p class="bottomspace2">
-            Request:
+            Test request:
             <a class="demorequest" href="http://localhost:3000/ahoi/accounts">
               http://localhost:3000/ahoi/accounts
             </a>
@@ -91,15 +103,15 @@
               <i class="fas fa-spin fa-spinner"></i>
             </span>
           </p>
-  
+
           <div class="card">
             <div class="cardContent">
               <pre><code class="language-json demoresponse">/* Response */</code></pre>
             </div>
           </div>
-  
+
           <h3 class="subtitle is-5 topspace2">JavaScript-Aufruf</h3>
-  
+
           <div class="card bottomspace2">
             <div class="cardContent">
               <pre><code class="language-typescript">const ahoiConfig: AhoiConfig = {
@@ -115,11 +127,11 @@ const api: AccountApi = await this.ahoiApi.getAccountApi(installationId);
 return api.getAccounts(accessid);</code></pre>
             </div>
           </div>
-  
+
           <p>
             See also: <a target="_blank" href="https://sparkassen-hub.github.io/ahoi-nodejs-client/classes/AhoiApiFactory.html#getAccountApi">https://sparkassen-hub.github.io/ahoi-nodejs-client/classes/AhoiApiFactory.html</a>
           </p>
-  
+
         </div>
       </div>
     </div>
@@ -167,7 +179,7 @@ return api.getAccounts(accessid);</code></pre>
           // open transactions page
           location.href = form.action;
         });
-      } catch(e) {
+      } catch (e) {
         alert(e);
       }
 
