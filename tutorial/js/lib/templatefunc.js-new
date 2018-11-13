@@ -1,0 +1,249 @@
+const TemplateMode = {
+  Append: 'Append',
+  Prepend: 'Prepend',
+  Replace: 'Replace',
+};
+Object.freeze(TemplateMode);
+
+
+const templating = {};
+templating.nodes = new Map();
+templating.activeId = {};
+templating.count = 1;
+templating.baseElement = document.createElement('div');
+templating.container = document.createElement('div');
+templating.containercount = 0;
+templating.parentnodes = new Map();
+
+templating.replaceWith = (element, newElement, parent) => {
+  if (typeof newElement === 'string') {
+    newElement = templating.createElement(newElement);
+  }
+  (parent || templating.parent(element)).replaceChild(newElement, element);
+  return element;
+}
+
+templating.remove = (element) => {
+  templating.parent(element).removeChild(element);
+  return element;
+}
+
+templating.append = (element, parent) => {
+  if (typeof element === 'string') {
+    element = templating.createElement(element);
+  }
+  (parent || templating.parent(element)).append(element);
+  return element;
+}
+
+templating.before = (element, newElement) => {
+  if (typeof newElement === 'string') {
+    newElement = templating.createElement(newElement);
+  }
+  templating.parent(element).insertBefore(newElement, element);
+  return newElement;
+}
+
+templating.after = (element, newElement) => {
+  if (typeof newElement === 'string') {
+    newElement = templating.createElement(newElement);
+  }
+  templating.parent(element).insertBefore(newElement, element.nextElementSibling);
+  return newElement;
+}
+
+templating.parent = (element) => {
+  return element['parentElement'] || element.parent;
+}
+
+templating.createElement = (newElement) => {
+  templating.baseElement.innerHTML = newElement;
+  return templating.baseElement.firstChild;
+}
+
+templating.readSnippet = (id) => {
+  if (!templating.nodes.has(id)) {
+    // read html snippet with given id to use as template
+    const tplNode = document.querySelector(`[template=${id}]`);
+    console.log(tplNode);
+
+    const templateData = {
+      parentElement: tplNode.parentElement,
+    };
+    templating.findChildTemplates(tplNode, templateData);
+    templating.nodes.set(id, templateData);
+    templateData.template = templating.remove(tplNode).outerHTML.replace(/\stemplate\s*=/, ' -template=');
+  } else {
+    // if (templating.nodes.get(id).refs && templating.nodes.get(id).refs.length) {
+    //   const tpl = templating.nodes.get(id);
+    //   for (const ref of tpl.refs) {
+    //     const refTpl = templating.nodes.get(ref);
+    //     tpl.template = tpl.template.replace(new RegExp(`<tpl${refTpl.replaceno} `), `<tpl${templating.count} `);
+    //     tpl.template = tpl.template.replace(new RegExp(`</tpl${refTpl.replaceno}>`), `</tpl${templating.count}>`);
+    //     refTpl.replaceno = templating.count;
+    //     templating.count += 1;
+    //   }
+    // }
+  }
+
+  return templating.nodes.get(id);
+}
+
+templating.readSnippets = (id) => {
+
+
+
+  if (!templating.nodes.has(id)) {
+    // read html snippet with given id to use as template
+    const tplNode = document.querySelector(`[template=${id}]`);
+    console.log(tplNode);
+
+    const templateData = {
+      parentElement: tplNode.parentElement,
+    };
+    console.log('################## before findChild %s', id);
+    templating.findChildTemplates(tplNode, templateData);
+    console.log('################## after findChild %s', id);
+    templating.nodes.set(id, templateData);
+    console.log(id);
+    templateData.template = templating.remove(tplNode).outerHTML.replace(/\stemplate\s*=/, ' -template=');
+
+    console.log(templating.nodes);
+
+  } else {
+    // if (templating.nodes.get(id).refs && templating.nodes.get(id).refs.length) {
+    //   const tpl = templating.nodes.get(id);
+    //   for (const ref of tpl.refs) {
+    //     const refTpl = templating.nodes.get(ref);
+    //     tpl.template = tpl.template.replace(new RegExp(`<tpl${refTpl.replaceno} `), `<tpl${templating.count} `);
+    //     tpl.template = tpl.template.replace(new RegExp(`</tpl${refTpl.replaceno}>`), `</tpl${templating.count}>`);
+    //     refTpl.replaceno = templating.count;
+    //     templating.count += 1;
+    //   }
+    // }
+  }
+
+  return templating.nodes.get(id);
+}
+
+
+
+const template = (id, ...data) => {
+  console.log('template');
+  templating.applyTpl(false, TemplateMode.Append, id, ...data);
+}
+
+const update = (templateMode, id, ...data) => {
+  templating.applyTpl(true, templateMode, id, ...data);
+}
+
+templating.applyTpl = (isUpdate, templateMode, id, ...data) => {
+  const templateData = templating.readSnippet(id);
+  if (isUpdate) {
+    if (templateData.parentid) {
+      // TODO: check if item exists
+      parentnode = templating.parentnodes.get(templateData.parentid.node);
+    }
+
+    if (templateData.refs) {
+      const current = templating.parentnodes.get(id);
+      templating.parentnodes.set(id, { count: current ? current + 1 : 1, node: null });
+    }
+
+  }
+  templating.checkUpdate(templateMode, id, templateData);
+  // merge all JSON data into one JSON object
+  let merged = {};
+  for (const item of data) {
+    merged = Object.assign(merged, item);
+  }
+
+  let funcParams = [];
+  let funcParamValues = [];
+  for (const name in merged) {
+    funcParams.push(name);
+    funcParamValues.push(merged[name]);
+  }
+
+  // execute template function with parameter 'map' that contains all data as JSON
+  const result = (new Function(funcParams.join(','), `return \`${templateData.template}\``)(...funcParamValues)).replace(/undefined/g, '');
+
+  templating.append(result, templating.container);
+  templating.containercount += 1;
+
+}
+
+templating.checkUpdate = (templateMode, id, templateData) => {
+  if (templating.activeId.id !== id || templating.activeId.mode !== templateMode) {
+    console.log('is different %s %s %s %s', templateMode, id, templating.activeId.mode, templating.activeId.id);
+    if (templating.containercount) {
+      templating.updateDoc();
+    }
+    templating.activeId = { id, mode: templateMode, templateData };
+    templating.to = setTimeout(() => {
+      console.log('update');
+      if (templating.containercount) {
+        templating.updateDoc();
+        templating.activeId = {}
+      }
+    }, 50);
+  }
+}
+
+templating.updateDoc = () => {
+  console.log('updateDoc');
+  const tplData = templating.activeId.templateData;
+  const mode = templating.activeId.mode;
+  const id = templating.activeId.id;
+  clearTimeout(templating.to);
+
+
+
+  if (mode === TemplateMode.Replace) {
+    console.log(tplData.parentElement);
+    console.log(document.querySelectorAll(`[-template=${id}]`));
+    for (const element of [...document.querySelectorAll(`[-template=${id}]`)]) {
+      templating.remove(element);
+    }
+  }
+  const elements = [...templating.container.children];
+  for (const child of elements) {
+    console.log('next');
+    // add into document
+    templating.insertElement(tplData, TemplateMode.Append, child);
+  }
+  templating.containercount = 0;
+}
+
+templating.insertElement = (templateData, templateMode, tpl) => {
+  console.log(templateMode);
+  if (templateMode === TemplateMode.Prepend) {
+    if (templateData.first) {
+      templateData.first = templating.before(templateData.first, tpl);
+    } else {
+      templateMode = TemplateMode.append
+    }
+  }
+
+  if (templateMode === TemplateMode.Append) {
+    console.log('append');
+    let element;
+    if (templateData.replaceno) {
+      console.log(1);
+      console.log(templateData.replaceno);
+      element = templating.before(document.getElementsByTagName(`tpl${templateData.replaceno}`)[0], tpl);
+    } else if (templateData.parent) {
+      console.log(2);
+      element = templating.append(tpl, templateData.parent);
+    } else if (templateData.next && templateData.next.length) {
+      console.log(3);
+      element = templating.before(templateData.next, tpl);
+    } else {
+      console.log(4);
+      console.warn('Element could not be inserted %s', tpl);
+    }
+    templateData.first ? templateData.last = element : templateData.first = element;
+  }
+}
+
+

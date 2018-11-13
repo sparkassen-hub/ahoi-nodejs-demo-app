@@ -1,0 +1,119 @@
+[template] {
+  visibility: hidden;
+}
+
+
+body {
+  padding-bottom: 8rem;
+  height: auto;
+}
+
+body,
+.message-body,
+body h1.title.logo a {
+  color: #111;
+}
+
+body h1.title.logo {
+  margin-bottom: 6rem;
+}
+
+body .container .bottomspace1 {
+  margin-bottom: 3rem;
+}
+body .container .bottomspace2, p {
+  margin-bottom: 1.5rem;
+}
+body .container .bottomspace3 {
+  margin-bottom: 0.75rem;
+}
+
+body .container .topspace1 {
+  margin-top: 3rem;
+}
+body .container .topspace2 {
+  margin-top: 1.5rem;
+}
+
+.message ol,
+.message ul {
+  margin: 0 1.25rem;
+  padding: 0;
+}
+.message ul {
+  list-style: circle;
+}
+.message ul li {
+  margin-bottom: 0.5rem;
+}
+.message ul li:last-of-type {
+  margin-bottom: 0;
+}
+.message {
+  background-color: white;
+}
+
+body .hero-body {
+  margin-top: 1.5rem;
+  padding-top: 0;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.item.disabled .content {
+  opacity: 0.5;
+}
+
+body .autocomplete-suggestion {
+  padding: 1rem;
+  line-height: 0.6rem;
+  font-size: 1rem;
+}
+
+.switch[type=checkbox].is-info.is-outlined:checked+label::before,
+.switch[type=checkbox].is-info.is-outlined:checked+label:before {
+    background-color: transparent;
+    border-color: #555!important;
+}
+
+.switch[type=checkbox].is-info.is-outlined:checked+label::after,
+.switch[type=checkbox].is-info.is-outlined:checked+label:after {
+    background: #555;
+}
+
+.tab-content {
+  display: none;
+}
+.tab-content.is-active {
+  display: block;
+}
+
+.tabs li a {
+  border-bottom-color: #999;
+  color: #999;
+}
+
+.tabs li.is-active a {
+  border-bottom-color: #111;
+  color: #111;
+}
+
+body .container .cardheader {
+  margin-bottom: 0;
+  font-weight: 400;
+}
+
+.transactioninfo {
+  display: block;
+  padding: 0.6rem 0 0.5rem 0;
+}
+.transactioninfo.additional {
+  font-size: 0.9rem;
+  color: grey;
+  padding-top: 0.4rem;
+}
+
+:not(pre) > code[class*="language-"],
+pre[class*="language-"] {
+    background: #f5f2f02b;
+}

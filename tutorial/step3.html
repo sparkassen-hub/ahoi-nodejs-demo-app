@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <!-- Standard Meta -->
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>My Bank App</title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.min.css" integrity="sha256-zIG416V1ynj3Wgju/scU80KAEWOsO5rRLfVyRDuOv7Q="
+    crossorigin="anonymous" />
+
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU"
+    crossorigin="anonymous">
+
+  <link rel="stylesheet" href="prism/prism.css">
+
+  <link rel="stylesheet" href="css/tutorial.css" />
+
+</head>
+
+<body>
+
+  <div class="hero">
+    <div class="hero-body">
+      <a class="navbar-item" href="#technicalview">
+        <span>Technische Details</span>
+        <span class="icon">
+          <i class="fas fa-long-arrow-alt-down" aria-hidden="true"></i>
+        </span>
+      </a>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="container">
+      <div class="columns is-centered">
+        <div class="column is-two-thirds-desktop">
+
+          <h1 class="logo title is-size-3 has-text-centered"><a href="start.html">My<br />Bank<br />App</a></h1>
+
+          <h2 class="subtitle is-size-4">3. Bankzugang erlauben*</h2>
+
+          <div class="message">
+            <div class="message-body">
+              <p>
+                *Den Benutzernamen und die PIN für deine Demo-Konten bei der Sandbank &#128512; findest du in deinem
+                Sandbox-Account (<a href="https://banking-sandbox.starfinanz.de/sandboxmanager/#/home" target="_blank">Demo-Account</a>)
+                unter 'Sandbank access'.
+                <p>
+            </div>
+          </div>
+
+          <form class="bankaccess" required action="step4.html" method="POST" autocomplete="off">
+
+            <h3 template="tpl-bankname" class="subtitle">Bank: ${bankname}</h3>
+
+            <div class="field">
+              <div class="control">
+                <input class="input" required type="text" name="username" placeholder="Benutzername">
+              </div>
+            </div>
+            <div class="field bottomspace1">
+              <div class="control">
+                <input class="input" required type="password" name="pin" placeholder="PIN">
+              </div>
+            </div>
+
+            <div class="buttons is-right">
+              <button class="button is-black" type="submit" disabled>Weiter</button>
+            </div>
+
+          </form>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section is-medium technicalview">
+    <div class="container">
+      <div class="columns is-centered">
+        <div class="column is-two-thirds-desktop">
+
+          <h2 class="subtitle is-4" id="technicalview">Technische Details</h2>
+
+          <p class="bottomspace2">
+            Request:
+            <a class="demorequest" href="http://localhost:3000/ahoi/accesses">
+              http://localhost:3000/ahoi/accesses
+            </a>
+            <span class="spinner icon is-small is-right is-invisible">
+              <i class="fas fa-spin fa-spinner"></i>
+            </span>
+          </p>
+
+          <div class="card">
+            <div class="cardContent">
+              <pre><code class="language-json demoresponse">/* Response */</code></pre>
+            </div>
+          </div>
+
+          <h3 class="subtitle is-5 topspace2">JavaScript-Aufruf</h3>
+
+          <div class="card bottomspace2">
+            <div class="cardContent">
+              <pre><code class="language-typescript">const ahoiConfig: AhoiConfig = {
+  clientId: Configuration.get('AHOI_CLIENTID'),
+  clientSecret: Configuration.get('AHOI_CLIENTSECRET'),
+}
+/* Instantiated here for demo purposes only.
+Should be instantiated only once per application */
+const ahoiApi = new AhoiApiFactory(ahoiConfig);
+    
+const installationId: string = await this.userService.getInstallationId(user.id);
+const api: AccessApi = await this.ahoiApi.getAccessApi(installationId);
+const access: Access = {
+  providerId,
+  type: 'BankAccess',
+  accessFields: {
+    USERNAME: username,
+    CUSTOMERNUMBER: customernumber,
+    PIN: pin,
+  },
+};
+return api.postAccess(access);</code></pre>
+            </div>
+          </div>
+
+          <p>
+            See also: <a target="_blank" href="https://sparkassen-hub.github.io/ahoi-nodejs-client/classes/AhoiApiFactory.html#getAccessApi">https://sparkassen-hub.github.io/ahoi-nodejs-client/classes/AhoiApiFactory.html</a>
+          </p>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="text/javascript" src="prism/prism.js"></script>
+  <script type="text/javascript" src="js/tutorial.js"></script>
+  <script type="text/javascript" src="js/fetchrequest.js"></script>
+  <script type="text/javascript" src="js/ahoidata.js"></script>
+  <script type="text/javascript" src="js/lib/domutil.js"></script>
+  <script type="text/javascript" src="js/lib/templatefunc.js"></script>
+
+  <script type="text/javascript">
+
+    var urlParams = new URLSearchParams(window.location.search);
+    const bankname = urlParams.get('bankname');
+    const bankid = urlParams.get('bankid');
+
+    // apply bankname to html template (html snippet with id 'tpl-bankname')
+    template('tpl-bankname', { bankname });
+
+    dom.ready(async () => {
+
+      // enable submit button if all required input fields are filled
+      toggleSubmitButton(null, 'disabled');
+
+      // post data to grant bank access when form is submitted and open the next page on success
+      addListeners('form.bankaccess', 'submit', async (event) => {
+        event.preventDefault();
+        const form = event.target;
+        form.querySelector('form button[type=submit]').classList.add('is-loading');
+
+        try {
+          const username = form.querySelector('input[name=username]').value;
+          const pin = form.querySelector('input[name=pin]').value;
+          const access = await grantBankAccess(bankid, username, pin);
+          location.href = `${form.action}?bankid=${bankid}&accessid=${access.id}&bankname=${bankname}`;
+        } catch (e) {
+          form.querySelector('button[type=submit]').classList.remove('is-loading');
+          alert(e);
+        }
+        return false;
+      });
+
+      // Technical view
+      addListeners('a.demorequest', 'click', async (event) => {
+        event.preventDefault();
+
+        const pin = prompt('PIN für Demo-Bankzugang');
+        const user = prompt('Benutzername für Demo-Bankzugang');
+        
+        if (user && pin) {
+          const link = event.target;
+          $find('.technicalview .spinner').classList.remove('is-invisible');
+          $find('.demoresponse').innerHTML = JSON.stringify(await grantBankAccess(bankid, user, pin), null, 2);
+          Prism.highlightElement($find('.demoresponse'), true);
+          $find('.technicalview .spinner').classList.add('is-invisible');
+        }
+        return false;
+      });
+
+    });
+
+  </script>
+
+</body>
+
+</html>

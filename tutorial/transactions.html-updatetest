@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <!-- Standard Meta -->
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>My Bank App</title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.min.css"
+  integrity="sha256-zIG416V1ynj3Wgju/scU80KAEWOsO5rRLfVyRDuOv7Q=" crossorigin="anonymous"/>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
+  integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU"
+  crossorigin="anonymous">
+  <link rel="stylesheet" href="css/tutorial.css" />
+
+</head>
+
+<body>
+
+  <div class="section">
+    <div class="container">
+      <div class="columns is-centered">
+        <div class="column is-three-quarters">
+
+          <h1 class="logo title is-size-3 has-text-centered"><a href="start.html">My<br />Bank<br />App</a></h1>
+
+          <h2 class="title is-size-6 bottomspace2">Umsätze der letzten 3 Monate</h2>
+
+          <div class="tabs is-boxed">
+            <ul>
+              <li template="tpl-tab" class="${active}" data-tab="${blz}"><a>
+                  <span class="icon is-small"><i class="fas fa-wallet" aria-hidden="true"></i></span>
+                  <span>${blz}</span></a></li>
+            </ul>
+          </div>
+
+          <div template="tpl-tabcontent" class=" tab-content ${active}" data-tab="${blz}">
+
+            <!-- Transaction -->
+            <div template="tpl-transaction" class="columns">
+
+              <div class="column">
+                <span class="transactioninfo">${transaction.creditor}</span>
+                <span class="transactioninfo additional">${transaction.bookingKey}</span>
+              </div>
+
+              <div class="column has-text-right">
+                <span class="transactioninfo">${transaction.amount.value / 100} €</span>
+                <span class="transactioninfo additional">${new
+                  Date(transaction.bookingDate).toLocaleDateString('de-DE')}</span>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="text/javascript" src="js/tutorial.js"></script>
+  <script type="text/javascript" src="js/ahoidata.js"></script>
+  <script type="text/javascript" src="js/lib/domutil.js"></script>
+  <script type="text/javascript" src="js/lib/templatefunc.js"></script>
+
+  <script type="text/javascript">
+
+    dom.ready(async () => {
+
+      try {
+        const transactionList = await getTransactions();
+
+        // apply data to html templates (template="xxx")
+        let active = 'is-active';
+        for (const transactiondata of transactionList) {
+          template('tpl-tab', { blz: transactiondata.blz, active });
+          template('tpl-tabcontent', { blz: transactiondata.blz, active });
+
+          for (const transaction of transactiondata.transactions) {
+            template('tpl-transaction', { transaction });
+          }
+          active = '';
+        }
+
+        setTimeout(() => {
+          // apply data to html templates (template="xxx")
+          let active = 'is-active';
+          for (const transactiondata of [...transactionList].reverse()) {
+            update(TemplateMode.Replace, 'tpl-tab', { blz: transactiondata.blz, active });
+            update(TemplateMode.Replace, 'tpl-tabcontent', { blz: transactiondata.blz, active });
+
+            for (const transaction of transactiondata.transactions) {
+              update(TemplateMode.Replace, 'tpl-transaction', { transaction });
+            }
+            active = '';
+          }
+        }, 10000);
+
+        let activeTab = doc.qs('.tabs .is-active').getAttribute('data-tab');
+        addListeners(doc.qsall('.tabs li'), 'click', (event) => {
+          const li = getParentOrSelf(event.target, 'li');
+          const tabName = li.getAttribute('data-tab');
+          removeClass(`[data-tab='${activeTab}']`, 'is-active');
+          addClass(`[data-tab='${tabName}']`, 'is-active');
+          activeTab = tabName;
+        });
+      } catch (e) {
+        // location.href = "start.html";
+      }
+    });
+
+  </script>
+
+</body>
+
+</html>
