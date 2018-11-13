@@ -18,13 +18,17 @@ using the AHOI Open Banking API.
    * [NVM Mac / Linux](https://github.com/creationix/nvm#install-script)
    * [NVM Windows](https://github.com/coreybutler/nvm-windows)
 
-2. Clone this project or download and unpack it on your computer (see the green button 'Clone or
+2. Install GIT command line client if not already installed (currently all modules are available
+   only on GitHub and not on NPM)
+   * [GIT installation](https://www.atlassian.com/git/tutorials/install-git)
+
+3. Clone this project or download and unpack it on your computer (see the green button 'Clone or
    Download' above)
 
-3. Configure the application with the AHOI credentials. You have to register a demo account at ([AHOI
+4. Configure the application with the AHOI credentials. You have to register a demo account at ([AHOI
    Demo-Account](https://banking-sandbox.starfinanz.de/sandboxmanager/)) first to do this.
 
-4. After registration at AHOI open the application configuration file in a text editor:
+5. After registration at AHOI open the application configuration file in a text editor:
    <PROJECT_DIR>/config/env.development. Add the AHOI secrets which you find within your AHOI sandbox
    account.
    ![AHOI credentials](./ahoi-access-data-sandbox.png)
@@ -41,15 +45,15 @@ using the AHOI Open Banking API.
    Note: you should make the configuration file hidden by renaming it into .env.development as it
    contains passwords. The hidden configuration file is excluded from GIT commits.
 
-5. Open the console and change to the directory where you have cloned or unpacked the project, e.g. /user/development/ahoi-nodejs-demo-app
+6. Open the console and change to the directory where you have cloned or unpacked the project, e.g. /user/development/ahoi-nodejs-demo-app
 
-6. Install the application dependencies. This may take some time.
+7. Install the application dependencies. This may take some time.
 
    ```bash
    npm i
    ```
 
-7. Start the server
+8. Start the server
 
     ```bash
     # development
@@ -60,13 +64,13 @@ using the AHOI Open Banking API.
     npm start
     ```
 
-8. Test if the application works. Open in your browser:
+9. Test if the application works. Open in your browser:
     * [http://localhost:3000/testahoi](http://localhost:3000/testahoi)
     * [http://localhost:3000/installationid](http://localhost:3000/installationid).
 
    You should get an AHOI JWT token and an installationid
 
-9. If everything works fine, it's time to launch the simple app.
+10. If everything works fine, it's time to launch the simple app.
 
     Open the following URL in your browser and follow the explanations:
     * [http://localhost:3000/start.html](http://localhost:3000/start.html)
