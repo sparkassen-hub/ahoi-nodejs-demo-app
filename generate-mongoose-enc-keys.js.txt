@@ -1,3 +1,7 @@
+// Rename this file in generate-mongoose-enc-keys.js and execute it
+// On some computers Windows treats this file as Trojan: Win32/Sprisky.U!
+// I don't know why
+
 function generate(length) {
   require('crypto').randomBytes(length, (err, buffer) => {
     console.log(buffer.toString('base64'));
