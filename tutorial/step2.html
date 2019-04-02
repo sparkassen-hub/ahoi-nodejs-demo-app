@@ -59,7 +59,7 @@
                 *Mit einem Demo-Zugang muss hier die Sandbox Demo-Bank (Sandbank, BLZ 99994000) ausgewählt werden.
                 'Echte' Banken funktionieren nicht mit einem Demo-Zugang.
               </p>
-              <p lang="de">
+              <p lang="en">
                 *With a demo access you have to select the Sandbox demo bank (Sandbank, BLZ
                 99994000). ‘Real’ banks do not work with a demo access
               </p>
@@ -127,7 +127,7 @@
 /* Instantiated here for demo purposes only.
 Should be instantiated only once per application */
 const ahoiApi = new AhoiApiFactory(ahoiConfig);
-  
+
 const installationId: string = await this.userService.getInstallationId(user.id);
 const api: ProviderApi = await this.ahoiApi.getProviderApi(installationId);
 return api.getProviders(bankCode, supported, query);</code></pre>
